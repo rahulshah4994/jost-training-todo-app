@@ -1,0 +1,7 @@
+.d-flex {
+  display: flex;
+}
+
+.gap-2 {
+  gap: 12px;
+}

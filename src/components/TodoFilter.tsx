@@ -1,10 +1,13 @@
-export const TodoFilter = ({
+import { memo } from "react"
+
+export const TodoFilterComponent = ({
   setShowCompleted,
   showCompleted,
 }: {
   showCompleted: boolean
   setShowCompleted: (showCompleted: boolean) => void
 }) => {
+  console.log("Rerendering todoFilter")
   return (
     <div>
       <input
@@ -17,3 +20,5 @@ export const TodoFilter = ({
     </div>
   )
 }
+
+export const TodoFilter = memo(TodoFilterComponent)

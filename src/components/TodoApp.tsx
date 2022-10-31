@@ -2,13 +2,16 @@ import { AddTodoForm } from "./AddTodoForm"
 import { TodoFilter } from "./TodoFilter"
 import { TodoList } from "./TodoList"
 import "./TodoApp.css"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { TodoItem } from "../types/todo"
 
 export const TodoApp = () => {
+  console.log("Begin")
   const [todos, setTodos] = useState<TodoItem[]>([])
   const [showCompleted, setShowCompleted] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [count, setCount] = useState(0)
+  const increment = () => setCount(count + 1)
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/todos")
@@ -19,30 +22,39 @@ export const TodoApp = () => {
       })
   }, [])
 
-  const addTodo = (title: string) => {
-    setTodos([...todos, { id: todos.length + 1, title: title, completed: false }])
-  }
+  const addTodo = useCallback(
+    (title: string) => {
+      setTodos([...todos, { id: todos.length + 1, title: title, completed: false }])
+    },
+    [todos]
+  )
 
-  const displayedTodos = showCompleted
-    ? todos.filter((todo) => {
-        return todo.completed === true
-      })
-    : todos
+  const displayedTodos = useMemo(() => {
+    return showCompleted
+      ? todos.filter((todo) => {
+          return todo.completed === true
+        })
+      : todos
+  }, [todos, showCompleted])
 
-  const markTodoCompleted = (id: number, completed: boolean) => {
-    setTodos(
-      todos.map((todo) => {
-        if (id === todo.id) {
-          return { ...todo, completed: completed }
-        } else {
-          return todo
-        }
-      })
-    )
-  }
+  const markTodoCompleted = useCallback(
+    (id: number, completed: boolean) => {
+      setTodos(
+        todos.map((todo) => {
+          if (id === todo.id) {
+            return { ...todo, completed: completed }
+          } else {
+            return todo
+          }
+        })
+      )
+    },
+    [todos]
+  )
 
   return (
-    <div>
+    <div style={{ padding: 24 }}>
+      <button onClick={increment}>{count}</button>
       <AddTodoForm addTodo={addTodo} />
       <TodoFilter showCompleted={showCompleted} setShowCompleted={setShowCompleted} />
       {loading ? (

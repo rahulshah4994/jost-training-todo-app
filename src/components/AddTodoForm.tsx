@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 
-export const AddTodoForm = ({ addTodo }: { addTodo: (title: string) => void }) => {
+const AddTodoFormComponent = ({ addTodo }: { addTodo: (title: string) => void }) => {
   const [addTodoInput, setAddTodoInput] = useState("")
 
   return (
@@ -10,3 +10,5 @@ export const AddTodoForm = ({ addTodo }: { addTodo: (title: string) => void }) =
     </div>
   )
 }
+
+export const AddTodoForm = memo(AddTodoFormComponent)

@@ -3,9 +3,19 @@ import "./index.css"
 
 import reportWebVitals from "./reportWebVitals"
 import { TodoApp } from "./components/TodoApp"
+import { useState } from "react"
+const App = () => {
+  const [hide, setHide] = useState(false)
 
+  return (
+    <>
+      <button onClick={() => setHide(!hide)}>Hide</button>
+      {hide ? <h1>Hidden</h1> : <TodoApp />}
+    </>
+  )
+}
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
-root.render(<TodoApp />)
+root.render(<App />)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

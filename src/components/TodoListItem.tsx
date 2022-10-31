@@ -1,4 +1,6 @@
-export const TodoListItem = ({
+import { memo, useEffect } from "react"
+
+const TodoListItemComponent = ({
   completed,
   title,
   id,
@@ -9,6 +11,7 @@ export const TodoListItem = ({
   id: number
   markTodoCompleted: (id: number, completed: boolean) => void
 }) => {
+  console.log("Rerendering TodoListItem")
   return (
     <li>
       <input
@@ -20,3 +23,5 @@ export const TodoListItem = ({
     </li>
   )
 }
+
+export const TodoListItem = memo(TodoListItemComponent)

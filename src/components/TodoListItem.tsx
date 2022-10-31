@@ -1,4 +1,6 @@
-export const TodoListItem = ({
+import { memo } from "react"
+
+export const TodoListItemComponent = ({
   completed,
   title,
   id,
@@ -9,6 +11,7 @@ export const TodoListItem = ({
   id: number
   markTodoCompleted: (id: number, completed: boolean) => void
 }) => {
+  console.log("Rerending TodoItem")
   return (
     <li>
       <input
@@ -20,3 +23,5 @@ export const TodoListItem = ({
     </li>
   )
 }
+
+export const TodoListItem = TodoListItemComponent

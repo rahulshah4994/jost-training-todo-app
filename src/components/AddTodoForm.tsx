@@ -1,8 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState, memo } from "react"
 
-export const AddTodoForm = ({ addTodo }: { addTodo: (title: string) => void }) => {
+const AddTodoFormComponent = ({ addTodo }: { addTodo: (title: string) => void }) => {
   const [addTodoInput, setAddTodoInput] = useState("")
 
+  useEffect(() => {
+    console.log("addTodoFunctionChange")
+  }, [addTodo])
+  console.log("Rerendering Form")
   return (
     <div className="d-flex gap-2">
       <input type="text" value={addTodoInput} onChange={(e) => setAddTodoInput(e.target.value)} />
@@ -10,3 +14,5 @@ export const AddTodoForm = ({ addTodo }: { addTodo: (title: string) => void }) =
     </div>
   )
 }
+
+export const AddTodoForm = memo(AddTodoFormComponent)

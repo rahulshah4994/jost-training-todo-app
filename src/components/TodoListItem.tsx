@@ -1,4 +1,5 @@
-import { memo, useEffect } from "react"
+import { memo, useContext, useEffect } from "react"
+import { CounterContext } from ".."
 
 const TodoListItemComponent = ({
   completed,
@@ -11,13 +12,14 @@ const TodoListItemComponent = ({
   id: number
   markTodoCompleted: (id: number, completed: boolean) => void
 }) => {
-  console.log("Rerendering TodoListItem")
   return (
     <li>
       <input
         type="checkbox"
         checked={completed}
-        onChange={(e) => markTodoCompleted(id, e.target.checked)}
+        onChange={(e) => {
+          markTodoCompleted(id, e.target.checked)
+        }}
       ></input>
       <label>{title}</label>
     </li>

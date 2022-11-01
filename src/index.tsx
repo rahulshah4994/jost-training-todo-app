@@ -3,17 +3,19 @@ import "./index.css"
 
 import reportWebVitals from "./reportWebVitals"
 import { TodoApp } from "./components/TodoApp"
-import { useState } from "react"
-const App = () => {
-  const [hide, setHide] = useState(false)
+import { createContext, useState } from "react"
 
+export const CounterContext = createContext({ count: 0 })
+
+const App = () => {
+  const [count, setCount] = useState(10)
   return (
-    <>
-      <button onClick={() => setHide(!hide)}>Hide</button>
-      {hide ? <h1>Hidden</h1> : <TodoApp />}
-    </>
+    <CounterContext.Provider value={{ count }}>
+      <TodoApp />
+    </CounterContext.Provider>
   )
 }
+
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(<App />)
 

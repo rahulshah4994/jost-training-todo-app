@@ -7,7 +7,6 @@ export const TodoFilterComponent = ({
   showCompleted: boolean
   setShowCompleted: (showCompleted: boolean) => void
 }) => {
-  console.log("Rerendering todoFilter")
   return (
     <div>
       <input

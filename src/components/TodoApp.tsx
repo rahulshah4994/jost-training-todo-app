@@ -2,19 +2,12 @@ import { AddTodoForm } from "./AddTodoForm"
 import { TodoFilter } from "./TodoFilter"
 import { TodoList } from "./TodoList"
 import "./TodoApp.css"
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-} from "react"
+import { useCallback, useContext, useEffect, useMemo, useReducer } from "react"
 import { TodoItem } from "../types/todo"
 import { CounterContext } from ".."
 import { stateReducer } from "../reducers/todoApp.reducer"
 import { ACTIONS } from "../actions/todoApp.actions"
+import axios from "axios"
 
 export const TodoApp = () => {
   const [state, dispatch] = useReducer(stateReducer, {

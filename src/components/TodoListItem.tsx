@@ -1,5 +1,4 @@
-import { memo, useContext, useEffect } from "react"
-import { CounterContext } from ".."
+import { memo } from "react"
 
 const TodoListItemComponent = ({
   completed,

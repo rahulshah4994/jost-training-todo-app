@@ -1,69 +1,70 @@
-**/todos**
+# **/todos**
 
-- Get all todos:
+### **Get all todos:**
 
-  - URL: /todos
-  - Method: GET
-  - Params: {
-    \_page?: number
-    \_limit?: number
-    \_sort?: "id" | "userId" | "title" | "completed"
-    \_order?: "asc" | "desc"
-    completed?: true
-    title_like?: string // This is used for querying the todos by text
-    }
+- URL: /todos
+- Method: GET
+- Params: {  
+  \_page?: number,  
+  \_limit?: number,  
+  \_sort?: "id" | "userId" | "title" | "completed",  
+  \_order?: "asc" | "desc",  
+  completed?: true,  
+  title_like?: string // This is used for querying the todos by text,  
+  }
 
-  - Response: {
-    id: number
-    userId: number
-    title: string
-    completed: boolean
-    }[]
+- Response: {  
+  id: number,  
+  userId: number,  
+  title: string,  
+  completed: boolean,  
+  }[],
 
-- Get todo by id:
+### **Get todo by id:**
 
-  - URL: /todos/[id]
-  - Method: GET
-  - Params: {}
-  - Response: {
-    id: number
-    userId: number
-    title: string
-    completed: boolean
-    }
+- URL: /todos/[id]
+- Method: GET
+- Params: {}
+- Response: {  
+  id: number,  
+  userId: number,  
+  title: string,  
+  completed: boolean,  
+  }
 
-- Update a todo:
+### **Update a todo:**
 
-  - URL: /todos/[id]
-  - Method: PATCH
-  - Body: {
-    userId?: number
-    title?: string
-    completed?: boolean
-    }
-  - Response: {
-    id: number
-    userId: number
-    title: string
-    completed: boolean
-    }
+- URL: /todos/[id]
+- Method: PATCH
+- Body: {
+  userId?: number
+  title?: string
+  completed?: boolean
+  }
+- Response: {  
+  id: number,  
+  userId: number,  
+  title: string,  
+  completed: boolean,  
+  }
 
-- Create a todo:
-  - URL: /todos
-  - Method: POST
-  - Body: {
-    userId: number
-    title: string
-    completed: boolean
-    }
-  - Response: {
-    id: number
-    userId: number
-    title: string
-    completed: boolean
-    }
+### **Create a todo:**
 
-**/users**
+- URL: /todos
+- Method: POST
+- Body: {  
+   userId: number,  
+   title: string,  
+   completed: boolean  
+  }
+- Response: {  
+   id: number,  
+   userId: number,  
+   title: string,  
+   completed: boolean,  
+  }
+
+# **/users**
 
 - Get all users:
 

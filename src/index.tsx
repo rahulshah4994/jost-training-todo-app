@@ -3,17 +3,9 @@ import "./index.css"
 
 import reportWebVitals from "./reportWebVitals"
 import { TodoApp } from "./components/TodoApp"
-import { createContext, useState } from "react"
-
-export const CounterContext = createContext({ count: 0 })
 
 const App = () => {
-  const [count, setCount] = useState(10)
-  return (
-    <CounterContext.Provider value={{ count }}>
-      <TodoApp />
-    </CounterContext.Provider>
-  )
+  return <TodoApp />
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)

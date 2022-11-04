@@ -2,29 +2,60 @@ import { AddTodoForm } from "./AddTodoForm"
 import { TodoFilter } from "./TodoFilter"
 import { TodoList } from "./TodoList"
 import "./TodoApp.css"
-import { useCallback, useEffect } from "react"
-import { TodoItem } from "../types/todo"
+import { useCallback, useEffect, useState } from "react"
+import { GetTodosResponse, TodoItem } from "../types/todos.types"
+import { getTodos, postTodo } from "../services/todos.services"
+import { useMutation, useQuery, useQueryClient } from "react-query"
+import { AxiosError } from "axios"
 
 export const TodoApp = () => {
-  const todos: TodoItem[] = []
-  const showCompleted = false
-  const loading = false
+  const queryClient = useQueryClient()
+  const pageSize = 10
+  const [pageNumber, setPageNumber] = useState(1)
+  const [showCompleted, setShowCompleted] = useState(false)
+  const {
+    data: todos,
+    isLoading,
+    error,
+  } = useQuery<GetTodosResponse, AxiosError>(["todos", pageNumber, showCompleted], () => {
+    return getTodos({
+      _page: pageNumber,
+      _limit: pageSize,
+      completed: showCompleted ? true : undefined,
+    })
+  })
 
-  useEffect(() => {}, [])
+  const { mutate: postTodoMutate, isLoading: postTodoLoading } = useMutation(postTodo, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("todos")
+    },
+  })
 
-  const addTodo = useCallback((title: string) => {}, [])
+  const addTodo = useCallback((title: string) => {
+    postTodoMutate({ userId: 4, title: title, completed: false })
+  }, [])
+
   const markTodoCompleted = useCallback((id: number, completed: boolean) => {}, [])
-  const toggleShowCompleted = () => {}
+  const toggleShowCompleted = () => {
+    setShowCompleted(!showCompleted)
+  }
 
   return (
     <div style={{ padding: 24 }}>
-      <AddTodoForm addTodo={addTodo} />
+      <AddTodoForm addTodo={addTodo} loading={postTodoLoading} />
       <TodoFilter showCompleted={showCompleted} setShowCompleted={toggleShowCompleted} />
-      {loading ? (
+      {isLoading ? (
         <p>Loading...</p>
+      ) : error ? (
+        <h4>{error.message}</h4>
       ) : (
-        <TodoList todos={todos} markTodoCompleted={markTodoCompleted} />
+        <TodoList todos={todos || []} markTodoCompleted={markTodoCompleted} />
       )}
+      <div>
+        <button onClick={() => setPageNumber(pageNumber - 1)}>Prev</button>
+        {pageNumber}
+        <button onClick={() => setPageNumber(pageNumber + 1)}>Next</button>
+      </div>
     </div>
   )
 }

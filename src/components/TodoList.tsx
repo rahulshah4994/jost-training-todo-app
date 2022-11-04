@@ -1,5 +1,5 @@
 import { memo, useEffect, useMemo, useState } from "react"
-import { TodoItem } from "../types/todo"
+import { TodoItem } from "../types/todos.types"
 import { TodoListItem } from "./TodoListItem"
 
 const TodoListComponent = (props: {

@@ -3,9 +3,18 @@ import "./index.css"
 
 import reportWebVitals from "./reportWebVitals"
 import { TodoApp } from "./components/TodoApp"
+import { QueryClient, QueryClientProvider } from "react-query"
 
-const App = () => {
-  return <TodoApp />
+// Create a client
+const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 3000 } } })
+
+function App() {
+  return (
+    // Provide the client to your App
+    <QueryClientProvider client={queryClient}>
+      <TodoApp />
+    </QueryClientProvider>
+  )
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)

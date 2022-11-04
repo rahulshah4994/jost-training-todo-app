@@ -1,5 +1,5 @@
 import { ACTIONS } from "../actions/todoApp.actions"
-import { TodoItem } from "../types/todo"
+import { TodoItem } from "../types/todos.types"
 
 interface Action {
   type: string

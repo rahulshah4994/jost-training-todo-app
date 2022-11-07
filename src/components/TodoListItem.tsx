@@ -1,4 +1,5 @@
 import { memo } from "react"
+import { Link } from "react-router-dom"
 
 const TodoListItemComponent = ({
   completed,
@@ -20,7 +21,7 @@ const TodoListItemComponent = ({
           markTodoCompleted(id, e.target.checked)
         }}
       ></input>
-      <label>{title}</label>
+      <Link to={`/todos/${id}`}>{title}</Link>
     </li>
   )
 }

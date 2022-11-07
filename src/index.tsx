@@ -3,16 +3,106 @@ import "./index.css"
 
 import reportWebVitals from "./reportWebVitals"
 import { TodoApp } from "./components/TodoApp"
-import { QueryClient, QueryClientProvider } from "react-query"
-
+import { QueryClient, QueryClientProvider, useQuery } from "react-query"
+import {
+  BrowserRouter,
+  Outlet,
+  Route,
+  Routes,
+  Link,
+  useParams,
+  useNavigate,
+} from "react-router-dom"
+import { getTodo } from "./services/todos.services"
+import { AddTodoForm } from "./components/AddTodoForm"
+import { useEffect, useState } from "react"
 // Create a client
 const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 3000 } } })
+
+const About = () => {
+  return (
+    <div>
+      <header style={{ backgroundColor: "orange", padding: "30px" }}>
+        <h1 style={{ margin: "15px 0" }}>Title</h1>
+        <div style={{ display: "flex", gap: "20px" }}>
+          <Link to="/todos">Home</Link>
+          <Link to="/about">About Us</Link>
+          <Link to="/contact">Contact Us</Link>
+        </div>
+      </header>
+      <div style={{ display: "flex", width: "100vw", height: "900px" }}>
+        <div style={{ backgroundColor: "red", width: "300px" }}></div>
+        <div style={{ padding: "30px" }}>
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const TodoPage = () => {
+  let params = useParams()
+  const id = parseInt(params.todoId!)
+  const { data: todo, isLoading, error } = useQuery(["todo", id], () => getTodo(id))
+
+  return (
+    <div>
+      <h4>Todo Page for ID: {id}</h4>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>Invalid todo id in url: {params.todoId}</p>
+      ) : (
+        <>
+          <p>{todo?.title}</p>
+          <p>Status: {todo?.completed ? "Complete" : "Pending"}</p>
+        </>
+      )}
+    </div>
+  )
+}
+
+const ProtectedRoute = () => {
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => {
+      const isLoggedIn = Math.random() > 0.5
+      if (!isLoggedIn) {
+        navigate("/todos")
+      } else {
+        setLoading(false)
+      }
+    }, 2000)
+  }, [])
+
+  if (loading) return <p>Loading...</p>
+  return (
+    <>
+      <Outlet />{" "}
+    </>
+  )
+}
 
 function App() {
   return (
     // Provide the client to your App
+
     <QueryClientProvider client={queryClient}>
-      <TodoApp />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<About />}>
+            <Route path="todos" element={<TodoApp />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="todos/:todoId" element={<TodoPage />} />
+              <Route path="todos/create" element={<AddTodoForm />} />
+            </Route>
+            <Route path="about" element={<h2>About us page</h2>} />
+            <Route path="contact" element={<h2>Contact us page</h2>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </QueryClientProvider>
   )
 }

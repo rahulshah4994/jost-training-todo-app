@@ -44,27 +44,15 @@
     },
     {
       "userId": 4,
-      "title": "Todos",
+      "title": "Sample  Todo",
       "completed": false,
       "id": 8
     },
     {
       "userId": 4,
-      "title": "Sample",
+      "title": "Sample3",
       "completed": false,
       "id": 9
-    },
-    {
-      "userId": 4,
-      "title": "Sample",
-      "completed": false,
-      "id": 10
-    },
-    {
-      "userId": 4,
-      "title": "Sample",
-      "completed": false,
-      "id": 11
     }
   ]
 }

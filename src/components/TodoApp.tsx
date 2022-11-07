@@ -7,6 +7,7 @@ import { GetTodosResponse, TodoItem } from "../types/todos.types"
 import { getTodos, postTodo } from "../services/todos.services"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { AxiosError } from "axios"
+import { useNavigate } from "react-router-dom"
 
 export const TodoApp = () => {
   const queryClient = useQueryClient()
@@ -25,24 +26,14 @@ export const TodoApp = () => {
     })
   })
 
-  const { mutate: postTodoMutate, isLoading: postTodoLoading } = useMutation(postTodo, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("todos")
-    },
-  })
-
-  const addTodo = useCallback((title: string) => {
-    postTodoMutate({ userId: 4, title: title, completed: false })
-  }, [])
-
   const markTodoCompleted = useCallback((id: number, completed: boolean) => {}, [])
   const toggleShowCompleted = () => {
     setShowCompleted(!showCompleted)
   }
-
+  let navigate = useNavigate()
   return (
     <div style={{ padding: 24 }}>
-      <AddTodoForm addTodo={addTodo} loading={postTodoLoading} />
+      <button onClick={() => navigate("/todos/create")}>Create Todo</button>
       <TodoFilter showCompleted={showCompleted} setShowCompleted={toggleShowCompleted} />
       {isLoading ? (
         <p>Loading...</p>
